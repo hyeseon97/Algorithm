@@ -78,27 +78,17 @@ public class Solution {
 		if(pass) return;
 		
 		if(idx == value.length) {
-//			for(int i = 0;i<value.length;i++) {
-//				System.out.print(index[i] + " ");
+//			newArr = new int[D][W];
+//			for(int i = 0;i<D;i++) {
+//				newArr[i] = arr[i].clone();
 //			}
-//			System.out.println();
 //			for(int i = 0;i<value.length;i++) {
-//				System.out.print(value[i] + " ");
+//				for(int j = 0;j<W;j++) {
+//					newArr[index[i]][j] = value[i];
+//				}
 //			}
-//			System.out.println();
-//			System.out.println();
 //			
-			newArr = new int[D][W];
-			for(int i = 0;i<D;i++) {
-				newArr[i] = arr[i].clone();
-			}
-			for(int i = 0;i<value.length;i++) {
-				for(int j = 0;j<W;j++) {
-					newArr[index[i]][j] = value[i];
-				}
-			}
-			
-			if(test(newArr)) pass = true;
+			if(test()) pass = true;
 			
 			return;
 		}
@@ -110,16 +100,29 @@ public class Solution {
 		
 	}
 	
-	static boolean test(int[][] A) {
-		
+	static boolean test() {
 		for(int i = 0;i<W;i++) {
-			int count = 1;
-			int num = A[0][i];
-			for(int j = 1;j<D;j++) {
-				if(A[j][i] == num) {
+			int idx = 0;
+			int count = 0;
+			int num = 0;
+			for(int j = 0;j<D;j++) {
+				
+				int sel = arr[j][i];
+				if(index.length>0 && idx<index.length && j==index[idx]) {
+					sel = value[idx];
+					idx++;
+				}
+				
+				if(j==0) {
+					count = 1;
+					num = sel;
+					continue;
+				}
+				
+				if(sel == num) {
 					count++;
 				} else {
-					num = A[j][i];
+					num = sel;
 					count = 1;
 				}
 				
