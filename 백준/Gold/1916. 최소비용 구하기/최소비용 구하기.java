@@ -19,8 +19,6 @@ public class Main {
 	static int arrive;
 	// 최소비용
 	static int[] min;
-	// 방문체크 배열
-	static boolean[] visited;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -28,7 +26,6 @@ public class Main {
 		M = Integer.parseInt(br.readLine());
 		list = new ArrayList<>();
 		min = new int[N+1];
-		visited = new boolean[N+1];
 		for(int i = 0;i<=N;i++) {
 			list.add(new ArrayList<>());
 			min[i] = Integer.MAX_VALUE;
@@ -56,16 +53,14 @@ public class Main {
 		min[start] = 0;
 		int count = 0;
 		while(!pq.isEmpty()) {
-			count++;
 			int[] temp = pq.poll();
 			int num = temp[0];
 			int time = temp[1];
-            
-            // 한번 방문한 정점은 다신 방문하지 않기 위해 방문 체크 -> 시간 단축
-			if(visited[num]) continue;
-			visited[num] = true;
+			
+			if(time>min[num]) continue;
 			
 			for(int[] next : list.get(num)) {
+				count++;
 				int nextNum = next[0];
 				int nextTime = next[1];
 				if(time+nextTime < min[nextNum]) {
