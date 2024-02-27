@@ -57,6 +57,8 @@ public class Main {
 			int[] temp = q.poll();
 			int num = temp[0];
 			int len = temp[1];
+            
+            if(len>min[num]) continue;
 			
 			for(int[] next : list.get(num)) {
 				int nextNum = next[0];
