@@ -1,10 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,36 +12,54 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
+		int[] dist = new int[200001];
 		
+		PriorityQueue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				return o1[1]-o2[1];
+			}
+		});
 		
-		Queue<int[]> q = new LinkedList<>();
-		
-		Set<Integer> set = new HashSet<>();
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		dist[N] = 0;
 		q.add(new int[] {N, 0});
+		
 		while(!q.isEmpty()) {
 			int[] temp = q.poll();
 			int x = temp[0];
 			int time = temp[1];
-			set.add(x);
 			
-			// K에 도달했을 때 현재 시간 출력
+//			System.out.println(x + " " + time);
+			
 			if(x==K) {
-				System.out.println(time);
-				return;
+				break;
 			}
 			
-			// -1, +1, *2 에 가지 않았을 때만 큐에 넣어주기
-			if(!set.contains(x*2) && x<=K) {
-				q.add(new int[] {x*2, time}); // 순간이동 (*2)은 0초가 걸리므로 time을 그대로 넣어주기
+			if(x>0) {
+				if(time+1<dist[x-1]) {
+					dist[x-1] = time+1;
+					q.add(new int[] {x-1, time+1});
+				}
 			}
-			if(!set.contains(x-1) && x-1>=0) {
-				q.add(new int[] {x-1, time+1});
+			
+			if(x<100000) {
+				if(time+1<dist[x+1]) {
+					dist[x+1] = time+1;
+					q.add(new int[] {x+1, time+1});
+				}
 			}
-			if(!set.contains(x+1)) {
-				q.add(new int[] {x+1, time+1});
+			
+			if(x<=100000) {
+				if(time<dist[x*2]) {
+					dist[x*2] = time;
+					q.add(new int[] {x*2, time});
+				}
 			}
 			
 		}
+		
+		System.out.println(dist[K]);
 		
 	}
 }
