@@ -3,33 +3,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 
-// 카드 정렬하기
 public class Main {
-	public static void main(String[] args) throws IOException{
+	
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-
-		// 우선순위 큐로 사용
-		// 데이터의 삽입, 삭제, 정렬이 자주 일어나기 때문
+		// 가장 작은 카드 묶음 두개를 더해나가는 것이 가장 적게 비교하는 방법
+		// 비교해서 합친 카드묶음을 다시 넣고 또 가장 작은 카드 묶음 두개를 꺼내는 것이 반복되므로 우선순위큐 사용
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
 		for(int i = 0;i<N;i++) {
-			// 요소 삽입
 			pq.add(Integer.parseInt(br.readLine()));
 		}
-		// 비교횟수 변수
-		int result = 0;
-		// 묶음이 1개 남을 때 까지
+		int total = 0;
 		while(pq.size()>1) {
-			// 가장 작은 값 두개 꺼내서
-			int x = pq.poll();
-			int y = pq.poll();
-			// 더하고 저장
-			int sum = x+y;
-			// 결과에 더하기
-			result += sum;
-			// 큐에 다시 넣기
+			// 두개 뽑아서 더한것을
+			// 1. total에 더하고
+			// 2. pq에 다시 넣기
+			int A = pq.poll();
+			int B = pq.poll();
+			int sum = A+B;
+			total += sum;
 			pq.add(sum);
 		}
-		System.out.println(result);
+		System.out.println(total);
 	}
+
 }
