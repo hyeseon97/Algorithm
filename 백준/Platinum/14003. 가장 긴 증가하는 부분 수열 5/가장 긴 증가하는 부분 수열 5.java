@@ -63,9 +63,11 @@ public class Main {
             }
         }
 
-        System.out.println(length);
+        StringBuilder sb = new StringBuilder();
+        sb.append(length).append("\n");
         for(int i = list.size()-1;i>=0;i--){
-            System.out.print(list.get(i) + " ");
+            sb.append(list.get(i) + " ");
         }
+        System.out.println(sb.toString());
     }
 }
